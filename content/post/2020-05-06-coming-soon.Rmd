@@ -1,8 +1,8 @@
 ---
-title: test
+title: Coming Soon
 author: Ghassen Ghabarou
 date: '2020-05-06'
-slug: testRmd
+slug: coming-soon
 categories: []
 tags: []
 keywords:
