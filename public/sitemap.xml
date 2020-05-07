@@ -3,30 +3,30 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://ghassen.rbind.io/2020/05/coming-soon/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <loc>/2020/05/customer-segmentation/</loc>
+    <lastmod>2020-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://ghassen.rbind.io/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <loc>/</loc>
+    <lastmod>2020-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://ghassen.rbind.io/post/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <loc>/post/</loc>
+    <lastmod>2020-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://ghassen.rbind.io/archives/</loc>
+    <loc>/archives/</loc>
   </url>
   
   <url>
-    <loc>https://ghassen.rbind.io/categories/</loc>
+    <loc>/categories/</loc>
   </url>
   
   <url>
-    <loc>https://ghassen.rbind.io/tags/</loc>
+    <loc>/tags/</loc>
   </url>
   
 </urlset>

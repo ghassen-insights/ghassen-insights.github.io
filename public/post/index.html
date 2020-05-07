@@ -15,8 +15,8 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Posts">
 <meta name="twitter:title" content="Posts">
-<meta property="og:url" content="https://ghassen.rbind.io/post/">
-<meta property="twitter:url" content="https://ghassen.rbind.io/post/">
+<meta property="og:url" content="/post/">
+<meta property="twitter:url" content="/post/">
 <meta property="og:site_name" content="Ghassen&#39;s Insights">
 <meta property="og:description" content="Personal blog for data analysis">
 <meta name="twitter:description" content="Personal blog for data analysis">
@@ -45,14 +45,14 @@
 
     <title>Posts</title>
 
-    <link rel="icon" href="https://ghassen.rbind.io/favicon.png">
+    <link rel="icon" href="../favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://ghassen.rbind.io/post/index.xml">
-    
-
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="../post/index.xml">
     
 
-    <link rel="canonical" href="https://ghassen.rbind.io/post/">
+    
+
+    <link rel="canonical" href="../post/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="https://ghassen.rbind.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="../css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -75,12 +75,12 @@
       <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="https://ghassen.rbind.io/">Ghassen&#39;s Insights</a>
+    <a class="header-title-link" href="../">Ghassen&#39;s Insights</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="https://ghassen.rbind.io/#about">
+         href="../#about">
     
     
     
@@ -96,7 +96,7 @@
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="https://ghassen.rbind.io/#about">
+        <a href="../#about">
           <img class="sidebar-profile-picture" src="https://pbs.twimg.com/profile_images/1092105462219186176/2Z18kKKe_400x400.jpg" alt="Author&#39;s picture" />
         </a>
         <h4 class="sidebar-profile-name">Ghassen Ghabarou</h4>
@@ -109,7 +109,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://ghassen.rbind.io/">
+      <a class="sidebar-button-link " href="../">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -119,7 +119,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://ghassen.rbind.io/archives">
+      <a class="sidebar-button-link " href="../archives">
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
@@ -129,7 +129,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://ghassen.rbind.io/#about">
+      <a class="sidebar-button-link " href="../#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-user"></i>
       
@@ -143,7 +143,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/LonelyDaoist" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://github.com/LonelyDaoist">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -153,7 +153,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://twitter.com/GhabarouGhassen" target="_blank" rel="noopener">
+      <a class="sidebar-button-link " href="https://twitter.com/GhabarouGhassen">
     
       <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
       
@@ -197,16 +197,16 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://ghassen.rbind.io/2020/05/coming-soon/">
-          Coming Soon
+        <a class="link-unstyled" href="../2020/05/customer-segmentation/">
+          Customer Segmentation
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-05-06T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-05-07T00:00:00Z">
         
-  May 6, 2020
+  May 7, 2020
 
       </time>
     
@@ -219,10 +219,51 @@
         
 
 
+<div id="work-in-progress" class="section level5">
+<h5>Work in progress</h5>
+<pre class="r"><code>data &lt;- read.csv(&quot;Customers.csv&quot;)</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
+## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>glimpse(data)</code></pre>
+<pre><code>## Rows: 250
+## Columns: 5
+## $ CustomerID       &lt;int&gt; 157, 159, 201, 9, 202, 31, 33, 203, 23, 135, 141, 16…
+## $ Gender           &lt;fct&gt; Male, Male, Female, Male, Female, Male, Male, Male, …
+## $ Age              &lt;int&gt; 37, 34, 19, 64, 19, 60, 53, 19, 46, 20, 57, 19, 21, …
+## $ AnnualSalary.k.. &lt;int&gt; 78, 78, 137, 19, 137, 30, 33, 137, 25, 73, 75, 81, 1…
+## $ Spendings.1.100. &lt;int&gt; 1, 1, 1, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 7, 7…</code></pre>
+<pre class="r"><code>data &lt;- data %&gt;%
+  rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)</code></pre>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>clusters &lt;- hclust(d)</code></pre>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>cutcluster &lt;- cutree(clusters,3)</code></pre>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>We have to sample data to have the same amount of both genders</p>
 
       
       <p>
-        <a href="https://ghassen.rbind.io/2020/05/coming-soon/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="../2020/05/customer-segmentation/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>
@@ -288,7 +329,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="https://ghassen.rbind.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="../js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
 <script lang="javascript">

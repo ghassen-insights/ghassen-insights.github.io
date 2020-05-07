@@ -1,0 +1,148 @@
+---
+title: Customer Segmentation
+author: Ghassen Ghabarou
+date: '2020-05-07'
+slug: customer-segmentation
+categories: []
+tags: []
+keywords:
+  - Clustering
+  - Customer
+  - Analysis
+---
+
+##### Work in progress
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data <- read.csv("Customers.csv")
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+glimpse(data)
+```
+
+```{r}
+data <- data %>%
+  rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)
+```
+
+
+```{r,echo=FALSE}
+data %>%
+  ggplot(mapping = aes(x = Gender)) +
+    geom_bar()
+```
+
+
+```{r,echo=FALSE}
+data %>%
+  ggplot(mapping = aes(x = Age,color = Gender)) +
+    geom_density()
+```
+
+```{r,echo=FALSE}
+data %>%
+  #filter(between(Age,20,40)) %>%
+  ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
+    geom_density()
+```
+
+```{r,echo=FALSE}
+data %>%
+  ggplot(mapping = aes(x = Spendings,color = Gender)) +
+    geom_density()
+```
+
+```{r,echo=FALSE,message=FALSE, warning=FALSE}
+data %>%
+  ggplot(mapping = aes(x = Age,y = AnnualSalaryK)) +
+    geom_smooth() +
+    geom_point(alpha = 0.4) +
+    facet_wrap(~Gender)
+```
+
+```{r,echo=FALSE,message=FALSE, warning=FALSE}
+data %>%
+  ggplot(mapping = aes(x = Age,y = Spendings)) +
+    geom_smooth() +
+    geom_point(alpha = 0.4) +
+    facet_wrap(~Gender)
+```
+
+```{r,echo=FALSE,message=FALSE, warning=FALSE}
+data %>%
+  ggplot(mapping = aes(y = Spendings,x = AnnualSalaryK)) +
+    geom_smooth() +
+    geom_point(alpha = 0.4) +
+    facet_wrap(~Gender)
+```
+
+
+```{r,echo=FALSE}
+d <- data %>%
+  mutate(gender = as.numeric(Gender)) %>% 
+  select(-CustomerID,-Gender) %>% 
+  dist()
+```
+
+```{r}
+clusters <- hclust(d)
+```
+
+```{r,echo=FALSE}
+plot(clusters)
+```
+
+```{r}
+cutcluster <- cutree(clusters,3)
+```
+
+```{r,echo=FALSE}
+data %>% 
+  mutate(cluster = as.factor(cutcluster)) %>% 
+  ggplot(mapping = aes(x = cluster,y = Age)) +
+    geom_boxplot()
+```
+
+```{r,echo=FALSE}
+data %>% 
+  mutate(cluster = as.factor(cutcluster)) %>% 
+  ggplot(mapping = aes(x = cluster,y = AnnualSalaryK)) +
+    geom_boxplot()
+```
+
+
+```{r,echo=FALSE}
+data %>% 
+  mutate(cluster = as.factor(cutcluster)) %>% 
+  ggplot(mapping = aes(x = cluster,y = Spendings)) +
+    geom_boxplot()
+```
+
+```{r,echo=FALSE}
+data %>% 
+  mutate(cluster = as.factor(cutcluster)) %>% 
+  ggplot(mapping = aes(x = AnnualSalaryK,y = Spendings, color = cluster)) +
+    geom_point()
+```
+
+```{r,echo=FALSE}
+data %>% 
+  mutate(cluster = as.factor(cutcluster)) %>% 
+  group_by(Gender,cluster) %>% 
+  summarise(count = n()) %>% 
+  ggplot(mapping = aes(x = cluster,y = count,fill = Gender)) +
+    geom_bar(stat = "identity",position = "dodge")
+```
+
+## Conclusion
+We have to sample data to have the same amount of both genders 
+
+<!--more-->
