@@ -7,11 +7,10 @@ categories: []
 tags: []
 keywords:
   - Clustering
-  - Customer
-  - Analysis
 ---
 
-##### Work in progress
+#### Work in progress
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -27,6 +26,8 @@ library(tidyverse)
 ```{r}
 glimpse(data)
 ```
+
+<!--more-->
 
 ```{r}
 data <- data %>%
@@ -144,5 +145,3 @@ data %>%
 
 ## Conclusion
 We have to sample data to have the same amount of both genders 
-
-<!--more-->

@@ -1,15 +1,16 @@
 ---
-title: Customer Segmentation
+title: testing
 author: Ghassen Ghabarou
-date: '2020-05-07'
-slug: customer-segmentation
+date: '2020-05-08'
+slug: testing
 categories: []
 tags: []
 keywords:
-  - Clustering
+  - tech
 ---
+##### Work in progress
+## Just doing some testing
 
-#### Work in progress
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -26,8 +27,6 @@ library(tidyverse)
 ```{r}
 glimpse(data)
 ```
-
-<!--more-->
 
 ```{r}
 data <- data %>%
@@ -145,3 +144,27 @@ data %>%
 
 ## Conclusion
 We have to sample data to have the same amount of both genders 
+
+
+testing testing
+
+
+```{r}
+data <- read.csv("Customers.csv")
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+glimpse(data)
+```
+
+```{r}
+data <- data %>%
+  rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)
+```
+
+
+

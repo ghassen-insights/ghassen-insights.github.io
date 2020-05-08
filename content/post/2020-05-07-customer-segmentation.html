@@ -7,14 +7,12 @@ categories: []
 tags: []
 keywords:
   - Clustering
-  - Customer
-  - Analysis
 ---
 
 
 
-<div id="work-in-progress" class="section level5">
-<h5>Work in progress</h5>
+<div id="work-in-progress" class="section level4">
+<h4>Work in progress</h4>
 <pre class="r"><code>data &lt;- read.csv(&quot;Customers.csv&quot;)</code></pre>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
@@ -33,6 +31,7 @@ keywords:
 ## $ Age              &lt;int&gt; 37, 34, 19, 64, 19, 60, 53, 19, 46, 20, 57, 19, 21, …
 ## $ AnnualSalary.k.. &lt;int&gt; 78, 78, 137, 19, 137, 30, 33, 137, 25, 73, 75, 81, 1…
 ## $ Spendings.1.100. &lt;int&gt; 1, 1, 1, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 7, 7…</code></pre>
+<!--more-->
 <pre class="r"><code>data &lt;- data %&gt;%
   rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)</code></pre>
 <p><img src="/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -54,5 +53,4 @@ keywords:
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
 <p>We have to sample data to have the same amount of both genders</p>
-<!--more-->
 </div>
