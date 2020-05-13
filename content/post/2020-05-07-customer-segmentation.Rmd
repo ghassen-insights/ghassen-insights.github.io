@@ -59,7 +59,7 @@ We see we have more females than males, let's check their exact proportion
 prop.table(table(data$Gender))
 ```
 
-This is close to gender distribution of the population so it isn't too far from reality.<sup>[1](#references</sup>
+This is close to gender distribution of the population so it isn't too far from reality.<sup>[1](#references)</sup>
 
 ```{r}
 data %>%
@@ -76,7 +76,7 @@ data %>%
     geom_density()
 ```
 
-We see here that most customers have an income above the average (50k in us).<sup>[1](#references</sup>
+We see here that most customers have an income above the average (50k in us).<sup>[2](#references)</sup>
 
 ```{r}
 data %>%

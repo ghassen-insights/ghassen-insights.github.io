@@ -226,12 +226,12 @@
 <div id="loading-the-libraries" class="section level3">
 <h3>Loading the libraries</h3>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
 ## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
 ## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 </div>
@@ -269,7 +269,7 @@
 <pre><code>## 
 ## Female   Male 
 ##  0.556  0.444</code></pre>
-<p>This is close to gender distribution of the population so it isn’t too far from reality.<sup>[1](#references</sup></p>
+<p>This is close to gender distribution of the population so it isn’t too far from reality.<sup><a href="#references">1</a></sup></p>
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(x = Age,color = Gender)) +
     geom_density()</code></pre>
@@ -280,7 +280,7 @@
   ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
     geom_density()</code></pre>
 <p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>We see here that most customers have an income above the average (50k in us).<sup>[1](#references</sup></p>
+<p>We see here that most customers have an income above the average (50k in us).<sup><a href="#references">2</a></sup></p>
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(x = Spendings,color = Gender)) +
     geom_density()</code></pre>
