@@ -21,8 +21,8 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Customer Segmentation">
 <meta name="twitter:title" content="Customer Segmentation">
-<meta property="og:url" content="/2020/05/customer-segmentation/">
-<meta property="twitter:url" content="/2020/05/customer-segmentation/">
+<meta property="og:url" content="https://ghassen.rbind.io/2020/05/customer-segmentation/">
+<meta property="twitter:url" content="https://ghassen.rbind.io/2020/05/customer-segmentation/">
 <meta property="og:site_name" content="Ghassen&#39;s Insights">
 <meta property="og:description" content="
 
@@ -67,12 +67,12 @@
 
     <title>Customer Segmentation</title>
 
-    <link rel="icon" href="../../../favicon.png">
+    <link rel="icon" href="https://ghassen.rbind.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="../../../2020/05/customer-segmentation/">
+    <link rel="canonical" href="https://ghassen.rbind.io/2020/05/customer-segmentation/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -80,7 +80,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="../../../css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    <link rel="stylesheet" href="https://ghassen.rbind.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
     
     
 
@@ -95,12 +95,12 @@
       <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="../../../">Ghassen&#39;s Insights</a>
+    <a class="header-title-link" href="https://ghassen.rbind.io/">Ghassen&#39;s Insights</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="../../../#about">
+         href="https://ghassen.rbind.io/#about">
     
     
     
@@ -116,7 +116,7 @@
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="../../../#about">
+        <a href="https://ghassen.rbind.io/#about">
           <img class="sidebar-profile-picture" src="https://pbs.twimg.com/profile_images/1092105462219186176/2Z18kKKe_400x400.jpg" alt="Author&#39;s picture" />
         </a>
         <h4 class="sidebar-profile-name">Ghassen Ghabarou</h4>
@@ -129,7 +129,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="../../../">
+      <a class="sidebar-button-link " href="https://ghassen.rbind.io/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -139,7 +139,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="../../../archives">
+      <a class="sidebar-button-link " href="https://ghassen.rbind.io/archives">
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
@@ -149,7 +149,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="../../../#about">
+      <a class="sidebar-button-link " href="https://ghassen.rbind.io/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-user"></i>
       
@@ -163,7 +163,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/LonelyDaoist">
+      <a class="sidebar-button-link " href="https://github.com/LonelyDaoist" target="_blank" rel="noopener">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -173,7 +173,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://twitter.com/GhabarouGhassen">
+      <a class="sidebar-button-link " href="https://twitter.com/GhabarouGhassen" target="_blank" rel="noopener">
     
       <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
       
@@ -263,7 +263,7 @@
   select(Gender) %&gt;%
   ggplot(mapping = aes(x = Gender)) +
     geom_bar()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We see we have more females than males, let’s check their exact proportion</p>
 <pre class="r"><code>prop.table(table(data$Gender))</code></pre>
 <pre><code>## 
@@ -273,32 +273,32 @@
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(x = Age,color = Gender)) +
     geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>There seems to be more people around 30 than other age group, If we had more data we can make some hypothesis about the type of shop this data was collected from.</p>
 <pre class="r"><code>data %&gt;%
   #filter(between(Age,20,40)) %&gt;%
   ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
     geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We see here that most customers have an income above the average (50k in us).<sup>[1](#references</sup></p>
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(x = Spendings,color = Gender)) +
     geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>There’s an interesting pattern here which can be seen, it seems there’s two ranges of products for both men and women, for men it’s around 15 and 50, for women it’s around 50 and 75.</p>
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(x = Age,y = Spendings)) +
     geom_smooth() +
     geom_point(alpha = 0.4) +
     facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Both men and women seem to have similar trends when it comes to spending and relative to their age, we see that women’s spendings are a bit higher overall and this could be explained with the previous plot where women’s products seem to be more expensive than men’s</p>
 <pre class="r"><code>data %&gt;%
   ggplot(mapping = aes(y = Spendings,x = AnnualSalaryK)) +
     geom_smooth() +
     geom_point(alpha = 0.4) +
     facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>What’s interesting here is that women with higher income tend to buy less and less from this shop, this might suggest that the quality of the products isn’t high enough.</p>
 <hr />
 </div>
@@ -310,20 +310,20 @@
   dist()</code></pre>
 <pre class="r"><code>clusters &lt;- hclust(d)</code></pre>
 <pre class="r"><code>plot(as.dendrogram(clusters))</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Although it’s a bit messy, we can spot three main clusters, so let’s divide the data according to those three and see what’s interesting about it.</p>
 <pre class="r"><code>cutcluster &lt;- cutree(clusters,3)</code></pre>
 <pre class="r"><code>data %&gt;% 
   mutate(cluster = as.factor(cutcluster)) %&gt;% 
   ggplot(mapping = aes(x = cluster,y = Spendings)) +
     geom_boxplot()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Through this plot, the main component of this clustering is the spending factor which got split into three groups: Low spending, Average spending and high spending.</p>
 <pre class="r"><code>data %&gt;% 
   mutate(cluster = as.factor(cutcluster)) %&gt;% 
   ggplot(mapping = aes(x = AnnualSalaryK,y = Spendings, color = cluster)) +
     geom_point()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="https://ghassen.rbind.io/post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>We can see it even more clearly if we plot the income against the salary.</p>
 <hr />
 </div>
@@ -337,6 +337,7 @@
 <ol style="list-style-type: decimal">
 <li><a href="https://www.statista.com/statistics/737923/us-population-by-gender/" target="_blank">Population by gender</a></li>
 <li><a href="https://www.statista.com/statistics/203183/percentage-distribution-of-household-income-in-the-us/" target="_blank">Income distribution</a></li>
+<li><a href="https://drive.google.com/file/d/1jEyjvH5th-Ug1HZbq44RTupQ1GTN6E08/view?usp=sharing" target="_blank">Download Data set</a></li>
 </ol>
 <hr />
 </div>
@@ -381,13 +382,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://ghassen.rbind.io/2020/05/customer-segmentation/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://ghassen.rbind.io/2020/05/customer-segmentation/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -461,13 +462,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://ghassen.rbind.io/2020/05/customer-segmentation/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://ghassen.rbind.io/2020/05/customer-segmentation/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -497,13 +498,13 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fghassen.rbind.io%2F2020%2F05%2Fcustomer-segmentation%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fghassen.rbind.io%2F2020%2F05%2Fcustomer-segmentation%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -558,7 +559,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="../../../js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+<script src="https://ghassen.rbind.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
 
 
 <script lang="javascript">
@@ -593,7 +594,7 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/2020\/05\/customer-segmentation\/';
+          this.page.url = 'https:\/\/ghassen.rbind.io\/2020\/05\/customer-segmentation\/';
           
             this.page.identifier = '\/2020\/05\/customer-segmentation\/'
           

@@ -163,6 +163,7 @@ We can't say much about this data set considering how much information it lacks
 
 1. [Population by gender](https://www.statista.com/statistics/737923/us-population-by-gender/){target="_blank"}
 2. [Income distribution](https://www.statista.com/statistics/203183/percentage-distribution-of-household-income-in-the-us/){target="_blank"}
+3. [Download Data set](https://drive.google.com/file/d/1jEyjvH5th-Ug1HZbq44RTupQ1GTN6E08/view?usp=sharing){target="_blank"}
 
 * * *
 
