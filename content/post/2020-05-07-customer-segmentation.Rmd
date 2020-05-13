@@ -9,67 +9,85 @@ keywords:
   - Clustering
 ---
 
-#### Work in progress
+<!--more-->
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+## Setup
 
-```{r}
-data <- read.csv("Customers.csv")
-```
+### Loading the libraries
 
 ```{r}
 library(tidyverse)
 ```
 
+### Loading the data
+
+```{r}
+data <- read.csv("Customers.csv")
+```
+
+* * *
+
+## Data
+
+This is a data I found online about the customers of an unknown shop, it is by no mean complete nor descriptive enough to run a thorough EDA or to generate any hypothesis, I only will use it to demonstrate customer segmentation using hierarchical clustering technique.
+
+## Exploratory Data Analysis
+
 ```{r}
 glimpse(data)
 ```
 
-<!--more-->
+A glimpse into the data shows us that we have information about only 250 customer in particular, gender, age, annual salary and spending.
 
 ```{r}
 data <- data %>%
   rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)
 ```
 
+Since some variables aren't formatted well, I slightly changed them.
 
-```{r,echo=FALSE}
+```{r}
 data %>%
+  select(Gender) %>%
   ggplot(mapping = aes(x = Gender)) +
     geom_bar()
 ```
 
+We see we have more females than males, let's check their exact proportion
 
-```{r,echo=FALSE}
+```{r}
+prop.table(table(data$Gender))
+```
+
+This is close to gender distribution of the population so it isn't too far from reality.<sup>[1](#references</sup>
+
+```{r}
 data %>%
   ggplot(mapping = aes(x = Age,color = Gender)) +
     geom_density()
 ```
 
-```{r,echo=FALSE}
+There seems to be more people around 30 than other age group, If we had more data we can make some hypothesis about the type of shop this data was collected from.
+
+```{r}
 data %>%
   #filter(between(Age,20,40)) %>%
   ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
     geom_density()
 ```
 
-```{r,echo=FALSE}
+We see here that most customers have an income above the average (50k in us).<sup>[1](#references</sup>
+
+```{r}
 data %>%
   ggplot(mapping = aes(x = Spendings,color = Gender)) +
     geom_density()
 ```
 
-```{r,echo=FALSE,message=FALSE, warning=FALSE}
-data %>%
-  ggplot(mapping = aes(x = Age,y = AnnualSalaryK)) +
-    geom_smooth() +
-    geom_point(alpha = 0.4) +
-    facet_wrap(~Gender)
-```
+There's an interesting pattern here which can be seen, it seems there's two ranges of products for both men and women, for men it's around 15 and 50, for women it's around 50 and 75.
 
-```{r,echo=FALSE,message=FALSE, warning=FALSE}
+
+```{r,message=FALSE}
 data %>%
   ggplot(mapping = aes(x = Age,y = Spendings)) +
     geom_smooth() +
@@ -77,7 +95,9 @@ data %>%
     facet_wrap(~Gender)
 ```
 
-```{r,echo=FALSE,message=FALSE, warning=FALSE}
+Both men and women seem to have similar trends when it comes to spending and relative to their age, we see that women's spendings are a bit higher overall and this could be explained with the previous plot where women's products seem to be more expensive than men's
+
+```{r,message=FALSE}
 data %>%
   ggplot(mapping = aes(y = Spendings,x = AnnualSalaryK)) +
     geom_smooth() +
@@ -85,8 +105,13 @@ data %>%
     facet_wrap(~Gender)
 ```
 
+What's interesting here is that women with higher income tend to buy less and less from this shop, this might suggest that the quality of the products isn't high enough.
 
-```{r,echo=FALSE}
+* * *
+
+## Clustering
+
+```{r}
 d <- data %>%
   mutate(gender = as.numeric(Gender)) %>% 
   select(-CustomerID,-Gender) %>% 
@@ -97,51 +122,48 @@ d <- data %>%
 clusters <- hclust(d)
 ```
 
-```{r,echo=FALSE}
-plot(clusters)
+```{r}
+plot(as.dendrogram(clusters))
 ```
+
+Although it's a bit messy, we can spot three main clusters, so let's divide the data according to those three and see what's interesting about it.
 
 ```{r}
 cutcluster <- cutree(clusters,3)
 ```
 
-```{r,echo=FALSE}
-data %>% 
-  mutate(cluster = as.factor(cutcluster)) %>% 
-  ggplot(mapping = aes(x = cluster,y = Age)) +
-    geom_boxplot()
-```
 
-```{r,echo=FALSE}
-data %>% 
-  mutate(cluster = as.factor(cutcluster)) %>% 
-  ggplot(mapping = aes(x = cluster,y = AnnualSalaryK)) +
-    geom_boxplot()
-```
-
-
-```{r,echo=FALSE}
+```{r}
 data %>% 
   mutate(cluster = as.factor(cutcluster)) %>% 
   ggplot(mapping = aes(x = cluster,y = Spendings)) +
     geom_boxplot()
 ```
 
-```{r,echo=FALSE}
+Through this plot, the main component of this clustering is the spending factor which got split into three groups: Low spending, Average spending and high spending.
+
+```{r}
 data %>% 
   mutate(cluster = as.factor(cutcluster)) %>% 
   ggplot(mapping = aes(x = AnnualSalaryK,y = Spendings, color = cluster)) +
     geom_point()
 ```
 
-```{r,echo=FALSE}
-data %>% 
-  mutate(cluster = as.factor(cutcluster)) %>% 
-  group_by(Gender,cluster) %>% 
-  summarise(count = n()) %>% 
-  ggplot(mapping = aes(x = cluster,y = count,fill = Gender)) +
-    geom_bar(stat = "identity",position = "dodge")
-```
+We can see it even more clearly if we plot the income against the salary.
+
+* * *
 
 ## Conclusion
-We have to sample data to have the same amount of both genders 
+
+We can't say much about this data set considering how much information it lacks
+
+* * *
+
+## References
+
+1. [Population by gender](https://www.statista.com/statistics/737923/us-population-by-gender/){target="_blank"}
+2. [Income distribution](https://www.statista.com/statistics/203183/percentage-distribution-of-household-income-in-the-us/){target="_blank"}
+
+* * *
+
+
