@@ -1,0 +1,174 @@
+---
+title: Activity monitoring
+author: Ghassen Ghabarou
+date: '2020-05-14'
+slug: activity-monitoring
+categories: []
+tags: []
+keywords:
+  - basic
+---
+
+
+
+<!--more-->
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">data</a> is from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day</p>
+<hr />
+</div>
+<div id="research-questions" class="section level2">
+<h2>Research Questions</h2>
+<p>This analysis aims to answer the following questions:</p>
+<ul>
+<li>What is mean total number of steps taken per day?</li>
+<li>What is the average daily activity pattern?</li>
+<li>Are there differences in activity patterns between weekdays and weekends?</li>
+</ul>
+<hr />
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
+## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ─────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>data &lt;- read_csv(&quot;activity.csv&quot;,col_types = cols(
+  steps = col_integer(),
+  date = col_date(),
+  interval = col_integer()
+))</code></pre>
+<hr />
+</div>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<pre class="r"><code>glimpse(data)</code></pre>
+<pre><code>## Rows: 17,568
+## Columns: 3
+## $ steps    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ date     &lt;date&gt; 2012-10-01, 2012-10-01, 2012-10-01, 2012-10-01, 2012-10-01,…
+## $ interval &lt;int&gt; 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 100, 105, 110,…</code></pre>
+<p>A glimpse into the data shows us that we got twp variables which are integer and one that’s date, we also see there’s some missing values which we’ll deal with later.</p>
+<p><strong>Research Question 1:</strong>
+What is mean total number of steps taken per day?</p>
+<pre class="r"><code>(d1 &lt;- data %&gt;% 
+  group_by(date) %&gt;%
+  drop_na() %&gt;% 
+  summarise(
+    total_steps_per_days = sum(steps),
+    mean_steps_per_days = mean(steps),
+    median_steps_per_days = median(steps)))</code></pre>
+<pre><code>## # A tibble: 53 x 4
+##    date       total_steps_per_days mean_steps_per_days median_steps_per_days
+##    &lt;date&gt;                    &lt;int&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 2012-10-02                  126               0.438                     0
+##  2 2012-10-03                11352              39.4                       0
+##  3 2012-10-04                12116              42.1                       0
+##  4 2012-10-05                13294              46.2                       0
+##  5 2012-10-06                15420              53.5                       0
+##  6 2012-10-07                11015              38.2                       0
+##  7 2012-10-09                12811              44.5                       0
+##  8 2012-10-10                 9900              34.4                       0
+##  9 2012-10-11                10304              35.8                       0
+## 10 2012-10-12                17382              60.4                       0
+## # … with 43 more rows</code></pre>
+<p>One thing to notice here is that most of the medians are null, that’s because there’s a lot of 5 minute intervals where the person doesn’t walk any steps which is reasonable.</p>
+<pre class="r"><code>d1 %&gt;% 
+  count(total_steps_per_days)</code></pre>
+<pre><code>## # A tibble: 53 x 2
+##    total_steps_per_days     n
+##                   &lt;int&gt; &lt;int&gt;
+##  1                   41     1
+##  2                  126     1
+##  3                 2492     1
+##  4                 3219     1
+##  5                 4472     1
+##  6                 5018     1
+##  7                 5441     1
+##  8                 6778     1
+##  9                 7047     1
+## 10                 7336     1
+## # … with 43 more rows</code></pre>
+<pre class="r"><code>ggplot(d1,aes(x = total_steps_per_days)) +
+  geom_histogram(binwidth = 3500)</code></pre>
+<p><img src="/post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We see here that the person make a number of steps around 10000 quite often, and if we look at the table above, we’ll notice is only during certain days so it might be related to work.</p>
+<p><strong>Research Question 2:</strong>
+What is the average daily activity pattern?</p>
+<pre class="r"><code>d2 &lt;- data %&gt;% 
+  group_by(interval) %&gt;% 
+  drop_na() %&gt;% 
+  summarise(average_steps = mean(steps))</code></pre>
+<pre class="r"><code>ggplot(d2,aes(x = interval,y = average_steps)) +
+  geom_line()</code></pre>
+<p><img src="/post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>From this plot we can see that there’s one peak in the average steps and the rest of the day it’s around 100 which could suggest indoor movement.</p>
+<pre class="r"><code>d2 %&gt;% 
+  arrange(desc(average_steps)) %&gt;% 
+  top_n(1,average_steps)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   interval average_steps
+##      &lt;int&gt;         &lt;dbl&gt;
+## 1      835          206.</code></pre>
+<p>The maximum average steps is done in the interval 835 which in hours is around 13 hours, so if the 0th interval correspond to midnight, it would be 1pm, this timing might suggest going to lunch</p>
+<p><strong>Imputing missing values</strong></p>
+<pre class="r"><code>data %&gt;% 
+  filter_all(any_vars(is.na(.))) %&gt;% 
+  count()</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1  2304</code></pre>
+<pre class="r"><code>new_data &lt;- data %&gt;% 
+  group_by(interval) %&gt;% 
+  mutate(steps = ifelse(is.na(steps),median(steps,na.rm = T),steps))</code></pre>
+<p>I chose to fill missing values with the median of the corresponding interval.</p>
+<pre class="r"><code>(d3 &lt;- new_data %&gt;% 
+  group_by(date) %&gt;%
+  drop_na() %&gt;% 
+  summarise(
+    total_steps_per_days = sum(steps),
+    mean_steps_per_days = mean(steps),
+    median_steps_per_days = median(steps)))</code></pre>
+<pre><code>## # A tibble: 61 x 4
+##    date       total_steps_per_days mean_steps_per_days median_steps_per_days
+##    &lt;date&gt;                    &lt;int&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 2012-10-01                 1141               3.96                      0
+##  2 2012-10-02                  126               0.438                     0
+##  3 2012-10-03                11352              39.4                       0
+##  4 2012-10-04                12116              42.1                       0
+##  5 2012-10-05                13294              46.2                       0
+##  6 2012-10-06                15420              53.5                       0
+##  7 2012-10-07                11015              38.2                       0
+##  8 2012-10-08                 1141               3.96                      0
+##  9 2012-10-09                12811              44.5                       0
+## 10 2012-10-10                 9900              34.4                       0
+## # … with 51 more rows</code></pre>
+<pre class="r"><code>ggplot(d3,aes(x = total_steps_per_days)) +
+  geom_histogram(binwidth = 3500)</code></pre>
+<p><img src="/post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Overall the histogram doesn’t seems to differ from the first one, however there’s a slight difference, we see that there’s another peak around 100 steps which, like stated previously, might imply indoor movement.</p>
+<p><strong>Research Question 3:</strong>
+Are there differences in activity patterns between weekdays and weekends?</p>
+<pre class="r"><code>new_data %&gt;% 
+  mutate(day_type = ifelse(weekdays(date) %in% c(&quot;Saturday&quot;,&quot;Sunday&quot;),&quot;Weekend&quot;,&quot;Weekday&quot;)) %&gt;%
+  group_by(interval,day_type) %&gt;% 
+  summarise(average = mean(steps)) %&gt;% 
+  ggplot(aes(x = interval, y = average)) +
+    geom_line() +
+    facet_wrap(~day_type,nrow = 2)</code></pre>
+<p><img src="/post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>We can see that there’s higher day activity during the weekends than during weekdays, this might suggest that the person likes walking outside and exercising during weekends.</p>
+<hr />
+</div>
