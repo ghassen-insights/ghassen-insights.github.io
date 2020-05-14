@@ -2,21 +2,33 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Ghassen&#39;s Insights</title>
-    <link>https://ghassen.rbind.io/post/</link>
+    <link>/post/</link>
     <description>Recent content in Posts on Ghassen&#39;s Insights</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://ghassen.rbind.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Activity monitoring</title>
+      <link>/2020/05/activity-monitoring/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/05/activity-monitoring/</guid>
+      <description>
+
+
+</description>
+    </item>
+    
+    <item>
       <title>Customer Segmentation</title>
-      <link>https://ghassen.rbind.io/2020/05/customer-segmentation/</link>
+      <link>/2020/05/customer-segmentation/</link>
       <pubDate>Thu, 07 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://ghassen.rbind.io/2020/05/customer-segmentation/</guid>
+      <guid>/2020/05/customer-segmentation/</guid>
       <description>
 
 

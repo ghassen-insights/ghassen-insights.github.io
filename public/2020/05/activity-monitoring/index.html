@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.70.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Ghassen Ghabarou">
-<meta name="keywords" content="Clustering">
+<meta name="keywords" content="basic">
 <meta name="description" content="
 
 
@@ -19,10 +19,10 @@
 
 ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Customer Segmentation">
-<meta name="twitter:title" content="Customer Segmentation">
-<meta property="og:url" content="/2020/05/customer-segmentation/">
-<meta property="twitter:url" content="/2020/05/customer-segmentation/">
+<meta property="og:title" content="Activity monitoring">
+<meta name="twitter:title" content="Activity monitoring">
+<meta property="og:url" content="/2020/05/activity-monitoring/">
+<meta property="twitter:url" content="/2020/05/activity-monitoring/">
 <meta property="og:site_name" content="Ghassen&#39;s Insights">
 <meta property="og:description" content="
 
@@ -35,10 +35,10 @@
 <meta property="og:locale" content="en-us">
 
   
-    <meta property="article:published_time" content="2020-05-07T00:00:00">
+    <meta property="article:published_time" content="2020-05-14T00:00:00">
   
   
-    <meta property="article:modified_time" content="2020-05-07T00:00:00">
+    <meta property="article:modified_time" content="2020-05-14T00:00:00">
   
   
   
@@ -65,14 +65,14 @@
   <meta property="twitter:image" content="https://pbs.twimg.com/profile_images/1092105462219186176/2Z18kKKe_400x400.jpg">
 
 
-    <title>Customer Segmentation</title>
+    <title>Activity monitoring</title>
 
     <link rel="icon" href="../../../favicon.png">
     
 
     
 
-    <link rel="canonical" href="../../../2020/05/customer-segmentation/">
+    <link rel="canonical" href="../../../2020/05/activity-monitoring/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -202,15 +202,15 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Customer Segmentation
+      Activity monitoring
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-05-07T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-05-14T00:00:00Z">
         
-  May 7, 2020
+  May 14, 2020
 
       </time>
     
@@ -221,10 +221,25 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <div id="setup" class="section level2">
+              <div id="data" class="section level2">
+<h2>Data</h2>
+<p>The <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">data</a> is from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day</p>
+<hr />
+</div>
+<div id="research-questions" class="section level2">
+<h2>Research Questions</h2>
+<p>This analysis aims to answer the following questions:</p>
+<ul>
+<li>What is mean total number of steps taken per day?</li>
+<li>What is the average daily activity pattern?</li>
+<li>Are there differences in activity patterns between weekdays and weekends?</li>
+</ul>
+<hr />
+</div>
+<div id="setup" class="section level2">
 <h2>Setup</h2>
-<div id="loading-the-libraries" class="section level3">
-<h3>Loading the libraries</h3>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ──────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
@@ -235,110 +250,135 @@
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div id="loading-the-data" class="section level3">
-<h3>Loading the data</h3>
-<pre class="r"><code>data &lt;- read.csv(&quot;Customers.csv&quot;)</code></pre>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>data &lt;- read_csv(&quot;activity.csv&quot;,col_types = cols(
+  steps = col_integer(),
+  date = col_date(),
+  interval = col_integer()
+))</code></pre>
 <hr />
 </div>
-</div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<p>This is a data I found online about the customers of an unknown shop, it is by no mean complete nor descriptive enough to run a thorough EDA or to generate any hypothesis, I only will use it to demonstrate customer segmentation using hierarchical clustering technique.</p>
 </div>
 <div id="exploratory-data-analysis" class="section level2">
 <h2>Exploratory Data Analysis</h2>
 <pre class="r"><code>glimpse(data)</code></pre>
-<pre><code>## Rows: 250
-## Columns: 5
-## $ CustomerID       &lt;int&gt; 157, 159, 201, 9, 202, 31, 33, 203, 23, 135, 141, 16…
-## $ Gender           &lt;fct&gt; Male, Male, Female, Male, Female, Male, Male, Male, …
-## $ Age              &lt;int&gt; 37, 34, 19, 64, 19, 60, 53, 19, 46, 20, 57, 19, 21, …
-## $ AnnualSalary.k.. &lt;int&gt; 78, 78, 137, 19, 137, 30, 33, 137, 25, 73, 75, 81, 1…
-## $ Spendings.1.100. &lt;int&gt; 1, 1, 1, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 7, 7…</code></pre>
-<p>A glimpse into the data shows us that we have information about only 250 customer in particular, gender, age, annual salary and spending.</p>
-<pre class="r"><code>data &lt;- data %&gt;%
-  rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)</code></pre>
-<p>Since some variables aren’t formatted well, I slightly changed them.</p>
-<pre class="r"><code>data %&gt;%
-  select(Gender) %&gt;%
-  ggplot(mapping = aes(x = Gender)) +
-    geom_bar()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>We see we have more females than males, let’s check their exact proportion</p>
-<pre class="r"><code>prop.table(table(data$Gender))</code></pre>
-<pre><code>## 
-## Female   Male 
-##  0.556  0.444</code></pre>
-<p>This is close to gender distribution of the population so it isn’t too far from reality.<sup><a href="#references">1</a></sup></p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Age,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>There seems to be more people around 30 than other age group, If we had more data we can make some hypothesis about the type of shop this data was collected from.</p>
-<pre class="r"><code>data %&gt;%
-  #filter(between(Age,20,40)) %&gt;%
-  ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>We see here that most customers have an income above the average (50k in us).<sup><a href="#references">2</a></sup></p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Spendings,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>There’s an interesting pattern here which can be seen, it seems there’s two ranges of products for both men and women, for men it’s around 15 and 50, for women it’s around 50 and 75.</p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Age,y = Spendings)) +
-    geom_smooth() +
-    geom_point(alpha = 0.4) +
-    facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Both men and women seem to have similar trends when it comes to spending and relative to their age, we see that women’s spendings are a bit higher overall and this could be explained with the previous plot where women’s products seem to be more expensive than men’s</p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(y = Spendings,x = AnnualSalaryK)) +
-    geom_smooth() +
-    geom_point(alpha = 0.4) +
-    facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>What’s interesting here is that women with higher income tend to buy less and less from this shop, this might suggest that the quality of the products isn’t high enough.</p>
-<hr />
-</div>
-<div id="clustering" class="section level2">
-<h2>Clustering</h2>
-<pre class="r"><code>d &lt;- data %&gt;%
-  mutate(gender = as.numeric(Gender)) %&gt;% 
-  select(-CustomerID,-Gender) %&gt;% 
-  dist()</code></pre>
-<pre class="r"><code>clusters &lt;- hclust(d)</code></pre>
-<pre class="r"><code>plot(as.dendrogram(clusters))</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>Although it’s a bit messy, we can spot three main clusters, so let’s divide the data according to those three and see what’s interesting about it.</p>
-<pre class="r"><code>cutcluster &lt;- cutree(clusters,3)</code></pre>
+<pre><code>## Rows: 17,568
+## Columns: 3
+## $ steps    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ date     &lt;date&gt; 2012-10-01, 2012-10-01, 2012-10-01, 2012-10-01, 2012-10-01,…
+## $ interval &lt;int&gt; 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 100, 105, 110,…</code></pre>
+<p>A glimpse into the data shows us that we got twp variables which are integer and one that’s date, we also see there’s some missing values which we’ll deal with later.</p>
+<p><strong>Research Question 1:</strong>
+What is mean total number of steps taken per day?</p>
+<pre class="r"><code>(d1 &lt;- data %&gt;% 
+  group_by(date) %&gt;%
+  drop_na() %&gt;% 
+  summarise(
+    total_steps_per_days = sum(steps),
+    mean_steps_per_days = mean(steps),
+    median_steps_per_days = median(steps)))</code></pre>
+<pre><code>## # A tibble: 53 x 4
+##    date       total_steps_per_days mean_steps_per_days median_steps_per_days
+##    &lt;date&gt;                    &lt;int&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 2012-10-02                  126               0.438                     0
+##  2 2012-10-03                11352              39.4                       0
+##  3 2012-10-04                12116              42.1                       0
+##  4 2012-10-05                13294              46.2                       0
+##  5 2012-10-06                15420              53.5                       0
+##  6 2012-10-07                11015              38.2                       0
+##  7 2012-10-09                12811              44.5                       0
+##  8 2012-10-10                 9900              34.4                       0
+##  9 2012-10-11                10304              35.8                       0
+## 10 2012-10-12                17382              60.4                       0
+## # … with 43 more rows</code></pre>
+<p>One thing to notice here is that most of the medians are null, that’s because there’s a lot of 5 minute intervals where the person doesn’t walk any steps which is reasonable.</p>
+<pre class="r"><code>d1 %&gt;% 
+  count(total_steps_per_days)</code></pre>
+<pre><code>## # A tibble: 53 x 2
+##    total_steps_per_days     n
+##                   &lt;int&gt; &lt;int&gt;
+##  1                   41     1
+##  2                  126     1
+##  3                 2492     1
+##  4                 3219     1
+##  5                 4472     1
+##  6                 5018     1
+##  7                 5441     1
+##  8                 6778     1
+##  9                 7047     1
+## 10                 7336     1
+## # … with 43 more rows</code></pre>
+<pre class="r"><code>ggplot(d1,aes(x = total_steps_per_days)) +
+  geom_histogram(binwidth = 3500)</code></pre>
+<p><img src="../../../post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We see here that the person make a number of steps around 10000 quite often, and if we look at the table above, we’ll notice is only during certain days so it might be related to work.</p>
+<p><strong>Research Question 2:</strong>
+What is the average daily activity pattern?</p>
+<pre class="r"><code>d2 &lt;- data %&gt;% 
+  group_by(interval) %&gt;% 
+  drop_na() %&gt;% 
+  summarise(average_steps = mean(steps))</code></pre>
+<pre class="r"><code>ggplot(d2,aes(x = interval,y = average_steps)) +
+  geom_line()</code></pre>
+<p><img src="../../../post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>From this plot we can see that there’s one peak in the average steps and the rest of the day it’s around 100 which could suggest indoor movement.</p>
+<pre class="r"><code>d2 %&gt;% 
+  arrange(desc(average_steps)) %&gt;% 
+  top_n(1,average_steps)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   interval average_steps
+##      &lt;int&gt;         &lt;dbl&gt;
+## 1      835          206.</code></pre>
+<p>The maximum average steps is done in the interval 835 which in hours is around 13 hours, so if the 0th interval correspond to midnight, it would be 1pm, this timing might suggest going to lunch</p>
+<p><strong>Imputing missing values</strong></p>
 <pre class="r"><code>data %&gt;% 
-  mutate(cluster = as.factor(cutcluster)) %&gt;% 
-  ggplot(mapping = aes(x = cluster,y = Spendings)) +
-    geom_boxplot()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Through this plot, the main component of this clustering is the spending factor which got split into three groups: Low spending, Average spending and high spending.</p>
-<pre class="r"><code>data %&gt;% 
-  mutate(cluster = as.factor(cutcluster)) %&gt;% 
-  ggplot(mapping = aes(x = AnnualSalaryK,y = Spendings, color = cluster)) +
-    geom_point()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p>We can see it even more clearly if we plot the income against the salary.</p>
-<hr />
-</div>
-<div id="conclusion" class="section level2">
-<h2>Conclusion</h2>
-<p>We can’t say much about this data set considering how much information it lacks</p>
-<hr />
-</div>
-<div id="references" class="section level2">
-<h2>References</h2>
-<ol style="list-style-type: decimal">
-<li><a href="https://www.statista.com/statistics/737923/us-population-by-gender/" target="_blank">Population by gender</a></li>
-<li><a href="https://www.statista.com/statistics/203183/percentage-distribution-of-household-income-in-the-us/" target="_blank">Income distribution</a></li>
-<li><a href="https://drive.google.com/file/d/1jEyjvH5th-Ug1HZbq44RTupQ1GTN6E08/view?usp=sharing" target="_blank">Download Data set</a></li>
-</ol>
+  filter_all(any_vars(is.na(.))) %&gt;% 
+  count()</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1  2304</code></pre>
+<pre class="r"><code>new_data &lt;- data %&gt;% 
+  group_by(interval) %&gt;% 
+  mutate(steps = ifelse(is.na(steps),median(steps,na.rm = T),steps))</code></pre>
+<p>I chose to fill missing values with the median of the corresponding interval.</p>
+<pre class="r"><code>(d3 &lt;- new_data %&gt;% 
+  group_by(date) %&gt;%
+  drop_na() %&gt;% 
+  summarise(
+    total_steps_per_days = sum(steps),
+    mean_steps_per_days = mean(steps),
+    median_steps_per_days = median(steps)))</code></pre>
+<pre><code>## # A tibble: 61 x 4
+##    date       total_steps_per_days mean_steps_per_days median_steps_per_days
+##    &lt;date&gt;                    &lt;int&gt;               &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 2012-10-01                 1141               3.96                      0
+##  2 2012-10-02                  126               0.438                     0
+##  3 2012-10-03                11352              39.4                       0
+##  4 2012-10-04                12116              42.1                       0
+##  5 2012-10-05                13294              46.2                       0
+##  6 2012-10-06                15420              53.5                       0
+##  7 2012-10-07                11015              38.2                       0
+##  8 2012-10-08                 1141               3.96                      0
+##  9 2012-10-09                12811              44.5                       0
+## 10 2012-10-10                 9900              34.4                       0
+## # … with 51 more rows</code></pre>
+<pre class="r"><code>ggplot(d3,aes(x = total_steps_per_days)) +
+  geom_histogram(binwidth = 3500)</code></pre>
+<p><img src="../../../post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Overall the histogram doesn’t seems to differ from the first one, however there’s a slight difference, we see that there’s another peak around 100 steps which, like stated previously, might imply indoor movement.</p>
+<p><strong>Research Question 3:</strong>
+Are there differences in activity patterns between weekdays and weekends?</p>
+<pre class="r"><code>new_data %&gt;% 
+  mutate(day_type = ifelse(weekdays(date) %in% c(&quot;Saturday&quot;,&quot;Sunday&quot;),&quot;Weekend&quot;,&quot;Weekday&quot;)) %&gt;%
+  group_by(interval,day_type) %&gt;% 
+  summarise(average = mean(steps)) %&gt;% 
+  ggplot(aes(x = interval, y = average)) +
+    geom_line() +
+    facet_wrap(~day_type,nrow = 2)</code></pre>
+<p><img src="../../../post/2020-05-14-activity-monitoring_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>We can see that there’s higher day activity during the weekends than during weekdays, this might suggest that the person likes walking outside and exercising during weekends.</p>
 <hr />
 </div>
 
@@ -356,7 +396,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -364,7 +404,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/customer-segmentation/" data-tooltip="Customer Segmentation">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -382,13 +422,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/activity-monitoring/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/activity-monitoring/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -436,7 +476,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -444,7 +484,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/customer-segmentation/" data-tooltip="Customer Segmentation">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -462,13 +502,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/activity-monitoring/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/activity-monitoring/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -498,13 +538,13 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2020%2F05%2Factivity-monitoring%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2020%2F05%2Factivity-monitoring%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -594,9 +634,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/2020\/05\/customer-segmentation\/';
+          this.page.url = '\/2020\/05\/activity-monitoring\/';
           
-            this.page.identifier = '\/2020\/05\/customer-segmentation\/'
+            this.page.identifier = '\/2020\/05\/activity-monitoring\/'
           
         };
         (function() {
