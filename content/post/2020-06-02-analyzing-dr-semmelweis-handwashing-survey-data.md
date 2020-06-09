@@ -1,0 +1,191 @@
+---
+title: Analyzing Dr. Semmelweis Handwashing Survey Data
+author: Ghassen Ghabarou
+date: '2020-06-02'
+slug: analyzing-dr-semmelweis-handwashing-survey-data
+categories: []
+tags: []
+keywords:
+  - tech
+---
+
+<!--more-->
+
+## Data
+
+In 1847 the Hungarian physician Ignaz Semmelweis makes a breakthough discovery: He discovers handwashing. Contaminated hands was a major cause of childbed fever and by enforcing handwashing at his hospital he saved hundreds of lives.
+
+The observations were taken from two clinics, the monthly dataset also describes the evolution of death due to childbed fever of the one clinic, in which Dr. Semmelweis enforced the handwashing practice.
+
+This data is based on the research of Dr. Semmelweis on Handwashing, it can be found [here](https://www.kaggle.com/arijit75/survey-data).
+
+* * *
+
+## Research Questions
+
+> How do the two clinics differ ?
+
+The two clinics used almost the same techniques,  this introduce any sort of difference on mortality rate?
+
+> Does handwashing actually have any link with a lower death rate?
+
+The handwashing was enforced in the first clinic in mid-May 1847, how did this affect mortality rate?
+
+* * *
+
+## Setup
+
+**Load Packages**
+
+```{r}
+library(tidyverse)
+library(infer)
+```
+
+
+**Load Data**
+
+```{r}
+yearly.data <- read_csv("datasets_33348_43848_yearly_deaths_by_clinic.csv")
+monthly.data <- read_csv("datasets_33348_43848_monthly_deaths.csv")
+```
+
+**Data Processing**
+
+```{r}
+yearly.data <- yearly.data %>% 
+  mutate(rate = deaths/(births+deaths))
+```
+
+
+```{r}
+monthly.data <- monthly.data %>% 
+  mutate(rate = deaths/(births+deaths),
+         handwashing = date >= "1847-06-01")
+```
+
+
+* * *
+
+## Exploratory Data Analysis
+
+### Research Question 1:
+How do the two clinics differ ?
+
+**Visualisation**
+
+```{r}
+yearly.data %>% 
+  ggplot(aes(year,rate,color = clinic)) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = "Comparing mortality rates in two clinics from 1841 till 1846",
+    y = "Mortality rate"
+  )
+```
+
+Since the two clinics used almost the same techniques, you'd expect they would have the same mortality rate, However, the first clinic has an average of around 10% while the second has an average of around 3%.
+
+the First Clinic was the teaching service for medical students where they also do autopsy, while the Second Clinic had been selected in 1841 for the instruction of midwives onlywould.
+
+So can we say that this difference is due to chance or was there really something going on?
+
+**Inference**
+
+```{r}
+yearly.data %>% 
+  group_by(clinic) %>% 
+  summarise("average mortality rate" = mean(rate))
+  
+```
+
+```{r}
+bootstrap.distribution <- yearly.data %>% 
+  specify(rate~clinic) %>% 
+  generate(reps = 1000,type = "bootstrap") %>% 
+  calculate(stat = "diff in means",order = c("clinic 1","clinic 2"))
+```
+
+```{r}
+(ci <- bootstrap.distribution %>% 
+  get_confidence_interval(level = 0.95, type = "percentile"))
+```
+
+```{r}
+bootstrap.distribution %>% 
+  visualise() +
+  shade_confidence_interval(endpoints =  ci) +
+  theme_minimal()
+```
+
+After applying bootstrapping, we see that the mortality rate in the first clinic is higher by 2.7% to 7.6%.from the second clinic
+
+**Summary**
+
+We are 95% confident that the difference in mortality rates of the two clinics is between 2.7% and 7.6% and since the confidence interval doesn't include zero, we can say that this difference isn't due to chance. 
+
+### Research Question 2:
+Does handwashing actually have any link with a lower death rate?
+
+**Visualisation**
+
+```{r}
+ggplot(monthly.data,aes(date,rate,color=handwashing)) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = "Mortality rate in the first clinic",
+    y = "Mortality rate"
+  )
+```
+
+The decrease in mortality rate is quite evident after enforcing handwashing, going from around 10% to around 3% which is very close to the rate of the second clinic.
+
+**Inference**
+
+```{r}
+monthly.data %>% 
+  group_by(handwashing) %>% 
+  summarise(rate.mean = mean(rate))
+```
+
+```{r}
+bootstrap.distribution <- monthly.data %>% 
+  specify(rate~handwashing) %>% 
+  generate(reps = 1000, type = "bootstrap") %>% 
+  calculate(stat = "diff in means", order = c("FALSE","TRUE"))
+```
+
+```{r}
+(ci <- bootstrap.distribution %>% 
+   get_confidence_interval(level = 0.95, type = "percentile"))
+```
+
+```{r}
+bootstrap.distribution %>% 
+  visualise() +
+  shade_confidence_interval(endpoints =  ci) +
+  theme_minimal()
+```
+
+After applying bootstrapping, we see that the mortality rate before enforcing handwashing is higher by 6% to 8%.from after enforcing it.
+
+**Summary**
+
+We are 95% confident that the difference of mortality rate between before enforcing and after enforcing handwashing varies between 6% and 8%. So it isn't due to chance.
+
+* * *
+
+## Conclusion
+
+During this analysis, we saw that there's a statistically significant difference when it comes to handwashing and mortality rates.
+
+* * *
+
+## Reference
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Ignaz_Semmelweis)
+
+* * *
+

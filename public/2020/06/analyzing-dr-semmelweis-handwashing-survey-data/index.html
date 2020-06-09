@@ -7,38 +7,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.70.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Ghassen Ghabarou">
-<meta name="keywords" content="Clustering">
-<meta name="description" content="
+<meta name="keywords" content="tech">
+<meta name="description" content="">
 
 
-">
-
-
-<meta property="og:description" content="
-
-
-">
+<meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Customer Segmentation">
-<meta name="twitter:title" content="Customer Segmentation">
-<meta property="og:url" content="/2020/05/customer-segmentation/">
-<meta property="twitter:url" content="/2020/05/customer-segmentation/">
+<meta property="og:title" content="Analyzing Dr. Semmelweis Handwashing Survey Data">
+<meta name="twitter:title" content="Analyzing Dr. Semmelweis Handwashing Survey Data">
+<meta property="og:url" content="/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
+<meta property="twitter:url" content="/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
 <meta property="og:site_name" content="Ghassen&#39;s Insights">
-<meta property="og:description" content="
-
-
-">
-<meta name="twitter:description" content="
-
-
-">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
 <meta property="og:locale" content="en-us">
 
   
-    <meta property="article:published_time" content="2020-05-07T00:00:00">
+    <meta property="article:published_time" content="2020-06-02T00:00:00">
   
   
-    <meta property="article:modified_time" content="2020-05-07T00:00:00">
+    <meta property="article:modified_time" content="2020-06-02T00:00:00">
   
   
   
@@ -65,14 +53,14 @@
   <meta property="twitter:image" content="https://pbs.twimg.com/profile_images/1092105462219186176/2Z18kKKe_400x400.jpg">
 
 
-    <title>Customer Segmentation</title>
+    <title>Analyzing Dr. Semmelweis Handwashing Survey Data</title>
 
     <link rel="icon" href="../../../favicon.png">
     
 
     
 
-    <link rel="canonical" href="../../../2020/05/customer-segmentation/">
+    <link rel="canonical" href="../../../2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -202,15 +190,15 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Customer Segmentation
+      Analyzing Dr. Semmelweis Handwashing Survey Data
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-05-07T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-06-02T00:00:00Z">
         
-  May 7, 2020
+  June 2, 2020
 
       </time>
     
@@ -221,127 +209,105 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <div id="setup" class="section level2">
-<h2>Setup</h2>
-<div id="loading-the-libraries" class="section level3">
-<h3>Loading the libraries</h3>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
-## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
-## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-</div>
-<div id="loading-the-data" class="section level3">
-<h3>Loading the data</h3>
-<pre class="r"><code>data &lt;- read.csv(&quot;Customers.csv&quot;)</code></pre>
-<hr />
-</div>
-</div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<p>This is a data I found online about the customers of an unknown shop, it is by no mean complete nor descriptive enough to run a thorough EDA or to generate any hypothesis, I only will use it to demonstrate customer segmentation using hierarchical clustering technique.</p>
-</div>
-<div id="exploratory-data-analysis" class="section level2">
-<h2>Exploratory Data Analysis</h2>
-<pre class="r"><code>glimpse(data)</code></pre>
-<pre><code>## Rows: 250
-## Columns: 5
-## $ CustomerID       &lt;int&gt; 157, 159, 201, 9, 202, 31, 33, 203, 23, 135, 141, 16…
-## $ Gender           &lt;fct&gt; Male, Male, Female, Male, Female, Male, Male, Male, …
-## $ Age              &lt;int&gt; 37, 34, 19, 64, 19, 60, 53, 19, 46, 20, 57, 19, 21, …
-## $ AnnualSalary.k.. &lt;int&gt; 78, 78, 137, 19, 137, 30, 33, 137, 25, 73, 75, 81, 1…
-## $ Spendings.1.100. &lt;int&gt; 1, 1, 1, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 7, 7…</code></pre>
-<p>A glimpse into the data shows us that we have information about only 250 customer in particular, gender, age, annual salary and spending.</p>
-<pre class="r"><code>data &lt;- data %&gt;%
-  rename(AnnualSalaryK = AnnualSalary.k.., Spendings = Spendings.1.100.)</code></pre>
-<p>Since some variables aren’t formatted well, I slightly changed them.</p>
-<pre class="r"><code>data %&gt;%
-  select(Gender) %&gt;%
-  ggplot(mapping = aes(x = Gender)) +
-    geom_bar()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>We see we have more females than males, let’s check their exact proportion</p>
-<pre class="r"><code>prop.table(table(data$Gender))</code></pre>
-<pre><code>## 
-## Female   Male 
-##  0.556  0.444</code></pre>
-<p>This is close to gender distribution of the population so it isn’t too far from reality.<sup><a href="#references">1</a></sup></p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Age,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>There seems to be more people around 30 than other age group, If we had more data we can make some hypothesis about the type of shop this data was collected from.</p>
-<pre class="r"><code>data %&gt;%
-  #filter(between(Age,20,40)) %&gt;%
-  ggplot(mapping = aes(x = AnnualSalaryK,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>We see here that most customers have an income above the average (50k in us).<sup><a href="#references">2</a></sup></p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Spendings,color = Gender)) +
-    geom_density()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>There’s an interesting pattern here which can be seen, it seems there’s two ranges of products for both men and women, for men it’s around 15 and 50, for women it’s around 50 and 75.</p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(x = Age,y = Spendings)) +
-    geom_smooth() +
-    geom_point(alpha = 0.4) +
-    facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Both men and women seem to have similar trends when it comes to spending and relative to their age, we see that women’s spendings are a bit higher overall and this could be explained with the previous plot where women’s products seem to be more expensive than men’s</p>
-<pre class="r"><code>data %&gt;%
-  ggplot(mapping = aes(y = Spendings,x = AnnualSalaryK)) +
-    geom_smooth() +
-    geom_point(alpha = 0.4) +
-    facet_wrap(~Gender)</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>What’s interesting here is that women with higher income tend to buy less and less from this shop, this might suggest that the quality of the products isn’t high enough.</p>
-<hr />
-</div>
-<div id="clustering" class="section level2">
-<h2>Clustering</h2>
-<pre class="r"><code>d &lt;- data %&gt;%
-  mutate(gender = as.numeric(Gender)) %&gt;% 
-  select(-CustomerID,-Gender) %&gt;% 
-  dist()</code></pre>
-<pre class="r"><code>clusters &lt;- hclust(d)</code></pre>
-<pre class="r"><code>plot(as.dendrogram(clusters))</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>Although it’s a bit messy, we can spot three main clusters, so let’s divide the data according to those three and see what’s interesting about it.</p>
-<pre class="r"><code>cutcluster &lt;- cutree(clusters,3)</code></pre>
-<pre class="r"><code>data %&gt;% 
-  mutate(cluster = as.factor(cutcluster)) %&gt;% 
-  ggplot(mapping = aes(x = cluster,y = Spendings)) +
-    geom_boxplot()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Through this plot, the main component of this clustering is the spending factor which got split into three groups: Low spending, Average spending and high spending.</p>
-<pre class="r"><code>data %&gt;% 
-  mutate(cluster = as.factor(cutcluster)) %&gt;% 
-  ggplot(mapping = aes(x = AnnualSalaryK,y = Spendings, color = cluster)) +
-    geom_point()</code></pre>
-<p><img src="../../../post/2020-05-07-customer-segmentation_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<p>We can see it even more clearly if we plot the income against the salary.</p>
-<hr />
-</div>
-<div id="conclusion" class="section level2">
-<h2>Conclusion</h2>
-<p>We can’t say much about this data set considering how much information it lacks</p>
-<hr />
-</div>
-<div id="references" class="section level2">
-<h2>References</h2>
-<ol style="list-style-type: decimal">
-<li><a href="https://www.statista.com/statistics/737923/us-population-by-gender/" target="_blank">Population by gender</a></li>
-<li><a href="https://www.statista.com/statistics/203183/percentage-distribution-of-household-income-in-the-us/" target="_blank">Income distribution</a></li>
-<li><a href="https://drive.google.com/file/d/1jEyjvH5th-Ug1HZbq44RTupQ1GTN6E08/view?usp=sharing" target="_blank">Download Data set</a></li>
-</ol>
-<hr />
-</div>
-
+              <h2 id="data">Data</h2>
+<p>In 1847 the Hungarian physician Ignaz Semmelweis makes a breakthough discovery: He discovers handwashing. Contaminated hands was a major cause of childbed fever and by enforcing handwashing at his hospital he saved hundreds of lives.</p>
+<p>The observations were taken from two clinics, the monthly dataset also describes the evolution of death due to childbed fever of the one clinic, in which Dr. Semmelweis enforced the handwashing practice.</p>
+<p>This data is based on the research of Dr. Semmelweis on Handwashing, it can be found <a href="https://www.kaggle.com/arijit75/survey-data">here</a>.</p>
+<hr>
+<h2 id="research-questions">Research Questions</h2>
+<blockquote>
+<p>How do the two clinics differ ?</p>
+</blockquote>
+<p>The two clinics used almost the same techniques,  this introduce any sort of difference on mortality rate?</p>
+<blockquote>
+<p>Does handwashing actually have any link with a lower death rate?</p>
+</blockquote>
+<p>The handwashing was enforced in the first clinic in mid-May 1847, how did this affect mortality rate?</p>
+<hr>
+<h2 id="setup">Setup</h2>
+<p><strong>Load Packages</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">library(tidyverse)
+library(infer)
+</code></pre><p><strong>Load Data</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">yearly.data &lt;- read_csv(&quot;datasets_33348_43848_yearly_deaths_by_clinic.csv&quot;)
+monthly.data &lt;- read_csv(&quot;datasets_33348_43848_monthly_deaths.csv&quot;)
+</code></pre><p><strong>Data Processing</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">yearly.data &lt;- yearly.data %&gt;% 
+  mutate(rate = deaths/(births+deaths))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">monthly.data &lt;- monthly.data %&gt;% 
+  mutate(rate = deaths/(births+deaths),
+         handwashing = date &gt;= &quot;1847-06-01&quot;)
+</code></pre><hr>
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<h3 id="research-question-1">Research Question 1:</h3>
+<p>How do the two clinics differ ?</p>
+<p><strong>Visualisation</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">yearly.data %&gt;% 
+  ggplot(aes(year,rate,color = clinic)) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = &quot;Comparing mortality rates in two clinics from 1841 till 1846&quot;,
+    y = &quot;Mortality rate&quot;
+  )
+</code></pre><p>Since the two clinics used almost the same techniques, you&rsquo;d expect they would have the same mortality rate, However, the first clinic has an average of around 10% while the second has an average of around 3%.</p>
+<p>the First Clinic was the teaching service for medical students where they also do autopsy, while the Second Clinic had been selected in 1841 for the instruction of midwives onlywould.</p>
+<p>So can we say that this difference is due to chance or was there really something going on?</p>
+<p><strong>Inference</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">yearly.data %&gt;% 
+  group_by(clinic) %&gt;% 
+  summarise(&quot;average mortality rate&quot; = mean(rate))
+  
+</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution &lt;- yearly.data %&gt;% 
+  specify(rate~clinic) %&gt;% 
+  generate(reps = 1000,type = &quot;bootstrap&quot;) %&gt;% 
+  calculate(stat = &quot;diff in means&quot;,order = c(&quot;clinic 1&quot;,&quot;clinic 2&quot;))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">(ci &lt;- bootstrap.distribution %&gt;% 
+  get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution %&gt;% 
+  visualise() +
+  shade_confidence_interval(endpoints =  ci) +
+  theme_minimal()
+</code></pre><p>After applying bootstrapping, we see that the mortality rate in the first clinic is higher by 2.7% to 7.6%.from the second clinic</p>
+<p><strong>Summary</strong></p>
+<p>We are 95% confident that the difference in mortality rates of the two clinics is between 2.7% and 7.6% and since the confidence interval doesn&rsquo;t include zero, we can say that this difference isn&rsquo;t due to chance.</p>
+<h3 id="research-question-2">Research Question 2:</h3>
+<p>Does handwashing actually have any link with a lower death rate?</p>
+<p><strong>Visualisation</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">ggplot(monthly.data,aes(date,rate,color=handwashing)) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = &quot;Mortality rate in the first clinic&quot;,
+    y = &quot;Mortality rate&quot;
+  )
+</code></pre><p>The decrease in mortality rate is quite evident after enforcing handwashing, going from around 10% to around 3% which is very close to the rate of the second clinic.</p>
+<p><strong>Inference</strong></p>
+<pre><code class="language-{r}" data-lang="{r}">monthly.data %&gt;% 
+  group_by(handwashing) %&gt;% 
+  summarise(rate.mean = mean(rate))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution &lt;- monthly.data %&gt;% 
+  specify(rate~handwashing) %&gt;% 
+  generate(reps = 1000, type = &quot;bootstrap&quot;) %&gt;% 
+  calculate(stat = &quot;diff in means&quot;, order = c(&quot;FALSE&quot;,&quot;TRUE&quot;))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">(ci &lt;- bootstrap.distribution %&gt;% 
+   get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))
+</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution %&gt;% 
+  visualise() +
+  shade_confidence_interval(endpoints =  ci) +
+  theme_minimal()
+</code></pre><p>After applying bootstrapping, we see that the mortality rate before enforcing handwashing is higher by 6% to 8%.from after enforcing it.</p>
+<p><strong>Summary</strong></p>
+<p>We are 95% confident that the difference of mortality rate between before enforcing and after enforcing handwashing varies between 6% and 8%. So it isn&rsquo;t due to chance.</p>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>During this analysis, we saw that there&rsquo;s a statistically significant difference when it comes to handwashing and mortality rates.</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Ignaz_Semmelweis">Wikipedia</a></li>
+</ul>
+<hr>
               
             </div>
           </div>
@@ -356,7 +322,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -364,7 +330,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -382,13 +348,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -436,7 +402,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -444,7 +410,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="../../../2020/05/activity-monitoring/" data-tooltip="Activity monitoring">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -462,13 +428,13 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/05/customer-segmentation/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -498,13 +464,13 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2020%2F06%2Fanalyzing-dr-semmelweis-handwashing-survey-data%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2020%2F05%2Fcustomer-segmentation%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2020%2F06%2Fanalyzing-dr-semmelweis-handwashing-survey-data%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
@@ -594,9 +560,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/2020\/05\/customer-segmentation\/';
+          this.page.url = '\/2020\/06\/analyzing-dr-semmelweis-handwashing-survey-data\/';
           
-            this.page.identifier = '\/2020\/05\/customer-segmentation\/'
+            this.page.identifier = '\/2020\/06\/analyzing-dr-semmelweis-handwashing-survey-data\/'
           
         };
         (function() {
