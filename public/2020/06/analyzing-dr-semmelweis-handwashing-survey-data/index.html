@@ -7,19 +7,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.70.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Ghassen Ghabarou">
-<meta name="keywords" content="tech">
-<meta name="description" content="">
+<meta name="keywords" content="inference">
+<meta name="description" content="
 
 
-<meta property="og:description" content="">
+">
+
+
+<meta property="og:description" content="
+
+
+">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Analyzing Dr. Semmelweis Handwashing Survey Data">
 <meta name="twitter:title" content="Analyzing Dr. Semmelweis Handwashing Survey Data">
 <meta property="og:url" content="/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
 <meta property="twitter:url" content="/2020/06/analyzing-dr-semmelweis-handwashing-survey-data/">
 <meta property="og:site_name" content="Ghassen&#39;s Insights">
-<meta property="og:description" content="">
-<meta name="twitter:description" content="">
+<meta property="og:description" content="
+
+
+">
+<meta name="twitter:description" content="
+
+
+">
 <meta property="og:locale" content="en-us">
 
   
@@ -209,105 +221,164 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <h2 id="data">Data</h2>
+              <div id="data" class="section level2">
+<h2>Data</h2>
 <p>In 1847 the Hungarian physician Ignaz Semmelweis makes a breakthough discovery: He discovers handwashing. Contaminated hands was a major cause of childbed fever and by enforcing handwashing at his hospital he saved hundreds of lives.</p>
-<p>The observations were taken from two clinics, the monthly dataset also describes the evolution of death due to childbed fever of the one clinic, in which Dr. Semmelweis enforced the handwashing practice.</p>
-<p>This data is based on the research of Dr. Semmelweis on Handwashing, it can be found <a href="https://www.kaggle.com/arijit75/survey-data">here</a>.</p>
-<hr>
-<h2 id="research-questions">Research Questions</h2>
+<p>The observations were taken from two clinics, the monthly dataset also describes the evolution of death due to childbed fever of the one clinic, in which Dr. Semmelweis enforced the handwashing practice.</p>
+<p>This data is based on the research of Dr. Semmelweis on Handwashing, it can be found <a href="https://www.kaggle.com/arijit75/survey-data">here</a>.</p>
+<hr />
+</div>
+<div id="research-questions" class="section level2">
+<h2>Research Questions</h2>
 <blockquote>
 <p>How do the two clinics differ ?</p>
 </blockquote>
-<p>The two clinics used almost the same techniques,  this introduce any sort of difference on mortality rate?</p>
+<p>The two clinics used almost the same techniques, this introduce any sort of difference on mortality rate?</p>
 <blockquote>
 <p>Does handwashing actually have any link with a lower death rate?</p>
 </blockquote>
 <p>The handwashing was enforced in the first clinic in mid-May 1847, how did this affect mortality rate?</p>
-<hr>
-<h2 id="setup">Setup</h2>
+<hr />
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
 <p><strong>Load Packages</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">library(tidyverse)
-library(infer)
-</code></pre><p><strong>Load Data</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">yearly.data &lt;- read_csv(&quot;datasets_33348_43848_yearly_deaths_by_clinic.csv&quot;)
-monthly.data &lt;- read_csv(&quot;datasets_33348_43848_monthly_deaths.csv&quot;)
-</code></pre><p><strong>Data Processing</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">yearly.data &lt;- yearly.data %&gt;% 
-  mutate(rate = deaths/(births+deaths))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">monthly.data &lt;- monthly.data %&gt;% 
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
+## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(infer)</code></pre>
+<p><strong>Load Data</strong></p>
+<pre class="r"><code>yearly.data &lt;- read_csv(&quot;datasets_33348_43848_yearly_deaths_by_clinic.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   year = col_double(),
+##   births = col_double(),
+##   deaths = col_double(),
+##   clinic = col_character()
+## )</code></pre>
+<pre class="r"><code>monthly.data &lt;- read_csv(&quot;datasets_33348_43848_monthly_deaths.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   date = col_date(format = &quot;&quot;),
+##   births = col_double(),
+##   deaths = col_double()
+## )</code></pre>
+<p><strong>Data Processing</strong></p>
+<pre class="r"><code>yearly.data &lt;- yearly.data %&gt;% 
+  mutate(rate = deaths/(births+deaths))</code></pre>
+<pre class="r"><code>monthly.data &lt;- monthly.data %&gt;% 
   mutate(rate = deaths/(births+deaths),
-         handwashing = date &gt;= &quot;1847-06-01&quot;)
-</code></pre><hr>
-<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
-<h3 id="research-question-1">Research Question 1:</h3>
+         handwashing = date &gt;= &quot;1847-06-01&quot;)</code></pre>
+<hr />
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="research-question-1" class="section level3">
+<h3>Research Question 1:</h3>
 <p>How do the two clinics differ ?</p>
 <p><strong>Visualisation</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">yearly.data %&gt;% 
+<pre class="r"><code>yearly.data %&gt;% 
   ggplot(aes(year,rate,color = clinic)) +
   geom_line() +
   theme_minimal() +
   labs(
     title = &quot;Comparing mortality rates in two clinics from 1841 till 1846&quot;,
     y = &quot;Mortality rate&quot;
-  )
-</code></pre><p>Since the two clinics used almost the same techniques, you&rsquo;d expect they would have the same mortality rate, However, the first clinic has an average of around 10% while the second has an average of around 3%.</p>
+  )</code></pre>
+<p><img src="../../../post/2020-06-02-analyzing-dr-semmelweis-handwashing-survey-data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Since the two clinics used almost the same techniques, you’d expect they would have the same mortality rate, However, the first clinic has an average of around 10% while the second has an average of around 3%.</p>
 <p>the First Clinic was the teaching service for medical students where they also do autopsy, while the Second Clinic had been selected in 1841 for the instruction of midwives onlywould.</p>
 <p>So can we say that this difference is due to chance or was there really something going on?</p>
 <p><strong>Inference</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">yearly.data %&gt;% 
+<pre class="r"><code>yearly.data %&gt;% 
   group_by(clinic) %&gt;% 
-  summarise(&quot;average mortality rate&quot; = mean(rate))
-  
-</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution &lt;- yearly.data %&gt;% 
+  summarise(&quot;average mortality rate&quot; = mean(rate))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   clinic   `average mortality rate`
+##   &lt;chr&gt;                       &lt;dbl&gt;
+## 1 clinic 1                   0.0890
+## 2 clinic 2                   0.0385</code></pre>
+<pre class="r"><code>bootstrap.distribution &lt;- yearly.data %&gt;% 
   specify(rate~clinic) %&gt;% 
   generate(reps = 1000,type = &quot;bootstrap&quot;) %&gt;% 
-  calculate(stat = &quot;diff in means&quot;,order = c(&quot;clinic 1&quot;,&quot;clinic 2&quot;))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">(ci &lt;- bootstrap.distribution %&gt;% 
-  get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution %&gt;% 
+  calculate(stat = &quot;diff in means&quot;,order = c(&quot;clinic 1&quot;,&quot;clinic 2&quot;))</code></pre>
+<pre class="r"><code>(ci &lt;- bootstrap.distribution %&gt;% 
+  get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   `2.5%` `97.5%`
+##    &lt;dbl&gt;   &lt;dbl&gt;
+## 1 0.0246  0.0764</code></pre>
+<pre class="r"><code>bootstrap.distribution %&gt;% 
   visualise() +
   shade_confidence_interval(endpoints =  ci) +
-  theme_minimal()
-</code></pre><p>After applying bootstrapping, we see that the mortality rate in the first clinic is higher by 2.7% to 7.6%.from the second clinic</p>
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2020-06-02-analyzing-dr-semmelweis-handwashing-survey-data_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>After applying bootstrapping, we see that the mortality rate in the first clinic is higher by 2.7% to 7.6%.from the second clinic</p>
 <p><strong>Summary</strong></p>
-<p>We are 95% confident that the difference in mortality rates of the two clinics is between 2.7% and 7.6% and since the confidence interval doesn&rsquo;t include zero, we can say that this difference isn&rsquo;t due to chance.</p>
-<h3 id="research-question-2">Research Question 2:</h3>
+<p>We are 95% confident that the difference in mortality rates of the two clinics is between 2.7% and 7.6% and since the confidence interval doesn’t include zero, we can say that this difference isn’t due to chance.</p>
+</div>
+<div id="research-question-2" class="section level3">
+<h3>Research Question 2:</h3>
 <p>Does handwashing actually have any link with a lower death rate?</p>
 <p><strong>Visualisation</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">ggplot(monthly.data,aes(date,rate,color=handwashing)) +
+<pre class="r"><code>ggplot(monthly.data,aes(date,rate,color=handwashing)) +
   geom_line() +
   theme_minimal() +
   labs(
     title = &quot;Mortality rate in the first clinic&quot;,
     y = &quot;Mortality rate&quot;
-  )
-</code></pre><p>The decrease in mortality rate is quite evident after enforcing handwashing, going from around 10% to around 3% which is very close to the rate of the second clinic.</p>
+  )</code></pre>
+<p><img src="../../../post/2020-06-02-analyzing-dr-semmelweis-handwashing-survey-data_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The decrease in mortality rate is quite evident after enforcing handwashing, going from around 10% to around 3% which is very close to the rate of the second clinic.</p>
 <p><strong>Inference</strong></p>
-<pre><code class="language-{r}" data-lang="{r}">monthly.data %&gt;% 
+<pre class="r"><code>monthly.data %&gt;% 
   group_by(handwashing) %&gt;% 
-  summarise(rate.mean = mean(rate))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution &lt;- monthly.data %&gt;% 
+  summarise(rate.mean = mean(rate))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   handwashing rate.mean
+##   &lt;lgl&gt;           &lt;dbl&gt;
+## 1 FALSE          0.0915
+## 2 TRUE           0.0205</code></pre>
+<pre class="r"><code>bootstrap.distribution &lt;- monthly.data %&gt;% 
   specify(rate~handwashing) %&gt;% 
   generate(reps = 1000, type = &quot;bootstrap&quot;) %&gt;% 
-  calculate(stat = &quot;diff in means&quot;, order = c(&quot;FALSE&quot;,&quot;TRUE&quot;))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">(ci &lt;- bootstrap.distribution %&gt;% 
-   get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))
-</code></pre><pre><code class="language-{r}" data-lang="{r}">bootstrap.distribution %&gt;% 
+  calculate(stat = &quot;diff in means&quot;, order = c(&quot;FALSE&quot;,&quot;TRUE&quot;))</code></pre>
+<pre class="r"><code>(ci &lt;- bootstrap.distribution %&gt;% 
+   get_confidence_interval(level = 0.95, type = &quot;percentile&quot;))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   `2.5%` `97.5%`
+##    &lt;dbl&gt;   &lt;dbl&gt;
+## 1 0.0565  0.0847</code></pre>
+<pre class="r"><code>bootstrap.distribution %&gt;% 
   visualise() +
   shade_confidence_interval(endpoints =  ci) +
-  theme_minimal()
-</code></pre><p>After applying bootstrapping, we see that the mortality rate before enforcing handwashing is higher by 6% to 8%.from after enforcing it.</p>
+  theme_minimal()</code></pre>
+<p><img src="../../../post/2020-06-02-analyzing-dr-semmelweis-handwashing-survey-data_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>After applying bootstrapping, we see that the mortality rate before enforcing handwashing is higher by 6% to 8%.from after enforcing it.</p>
 <p><strong>Summary</strong></p>
-<p>We are 95% confident that the difference of mortality rate between before enforcing and after enforcing handwashing varies between 6% and 8%. So it isn&rsquo;t due to chance.</p>
-<hr>
-<h2 id="conclusion">Conclusion</h2>
-<p>During this analysis, we saw that there&rsquo;s a statistically significant difference when it comes to handwashing and mortality rates.</p>
-<hr>
-<h2 id="reference">Reference</h2>
+<p>We are 95% confident that the difference of mortality rate between before enforcing and after enforcing handwashing varies between 6% and 8%. So it isn’t due to chance.</p>
+<hr />
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>During this analysis, we saw that there’s a statistically significant difference when it comes to handwashing and mortality rates.</p>
+<hr />
+</div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Ignaz_Semmelweis">Wikipedia</a></li>
 </ul>
-<hr>
+<hr />
+</div>
+
               
             </div>
           </div>

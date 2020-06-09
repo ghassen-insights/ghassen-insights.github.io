@@ -6,7 +6,7 @@ slug: analyzing-dr-semmelweis-handwashing-survey-data
 categories: []
 tags: []
 keywords:
-  - tech
+  - inference
 ---
 
 <!--more-->
